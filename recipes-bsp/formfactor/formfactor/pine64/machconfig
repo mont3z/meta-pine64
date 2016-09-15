@@ -1,0 +1,5 @@
+# Assume a USB mouse and keyboard are connected
+HAVE_TOUCHSCREEN=n
+HAVE_KEYBOARD=y
+DISPLAY_CAN_ROTATE=0
+DISPLAY_ORIENTATION=0
