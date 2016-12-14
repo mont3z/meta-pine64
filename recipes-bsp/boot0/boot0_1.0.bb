@@ -20,9 +20,12 @@ do_configure() {
 	:
 }
 
+do_install() {
+	:
+}
+
 do_deploy() {
-	install -d ${DEPLOY_DIR_IMAGE}
-	install -m 0755 ${WORKDIR}/boot0.bin ${DEPLOY_DIR_IMAGE}
+	install -m 0755 ${WORKDIR}/boot0.bin ${DEPLOYDIR}
 }
 
 addtask deploy before do_package after do_install

@@ -6,7 +6,7 @@
 
 DESCRIPTION="U-boot from longsleep repository"
 
-require recipes-bsp/u-boot/u-boot.inc
+require recipes-bsp/u-boot/u-boot-krogoth.inc
 DEPENDS += "arm-trusted-firmware sunxitools-native dtc-native"
 
 LICENSE = "GPLv2"
@@ -38,7 +38,7 @@ UBOOT_ENV_SUFFIX = "scr"
 UBOOT_ENV = "boot"
 
 do_compile[depends] = "sunxitools-native:do_install"
-do_compile[depends] += "arm-trusted-firmware:do_build" 
+do_compile[depends] += "arm-trusted-firmware:do_deploy" 
 
 do_compile_append() {
 	# build binary device tree
@@ -51,7 +51,7 @@ do_compile_append() {
 	script_${MACHINE} ${S}/sys_config.fex
 
 	# merge_uboot.exe u-boot.bin infile outfile mode[secmonitor|secos|scp]
-	cp ${STAGING_LOADER_DIR}/bl31-${MACHINE}.bin ${S}
+	cp ${DEPLOY_DIR_IMAGE}/bl31-${MACHINE}.bin ${S}
 	cp ${THISDIR}/${PN}/scp.bin ${S}
 	merge_uboot_${MACHINE} u-boot.bin bl31-${MACHINE}.bin u-boot-merged.bin secmonitor
 	merge_uboot_${MACHINE} u-boot-merged.bin scp.bin u-boot-merged2.bin scp

@@ -17,10 +17,11 @@ SRC_URI += "file://defconfig "
 KERNEL_DEVICETREE ?= "pine64.dtb pine64noplus.dtb"
 S = "${WORKDIR}/git"
 
-LINUX_VERSION = "3.10"
-LINUX_VERSION_EXTENSION = "-pine64"
+LINUX_VERSION = "3.10.104"
+LINUX_VERSION_EXTENSION = "-1-pine64"
 
-SRCREV="${AUTOREV}"
+# Corresponds to the tag 3.10.104-1-pine64
+SRCREV = "45be9eb7872b3057dd2ad9ba24340287d35f226b"
 PV = "${LINUX_VERSION}"
 
 KERNEL_IMAGETYPE="Image"

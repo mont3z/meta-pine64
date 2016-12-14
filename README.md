@@ -4,25 +4,13 @@
 
   **poky** 
   URI: git://git.yoctoproject.org/poky.git 
-  branch: krogoth 
-  revision: HEAD 
-
-  **meta-openembedded (meta-oe)** 
-  URI: git://git.openembedded.org/meta-openembedded 
-  subdirectory: meta-oe 
-  branch: krogoth 
-  revision: HEAD 
-
-  **meta-linaro** 
-  URI: https://git.linaro.org/openembedded/meta-linaro.git 
-  subdirectory: meta-linaro
-  branch: krogoth 
+  branch: morty 
   revision: HEAD 
 
 
 ## INSTALLATION ##
 
-  For the following instructions we assume you are on a Linux Ubuntu or Debian distribution compatible with Yocto Krogoth.
+  For the following instructions we assume you are on a Linux Ubuntu or Debian distribution compatible with Yocto Morty.
   However, most of the instructions should also be valid for other Linux systems.
 
   Install required packages for Yocto:
@@ -36,10 +24,8 @@
 
   ```shell
     mkdir ~/yocto && cd ~/yocto
-    git clone -b krogoth git://git.yoctoproject.org/poky.git
-    git clone -b krogoth git://git.openembedded.org/meta-openembedded
-    git clone https://git.linaro.org/openembedded/meta-linaro.git
-    git clone https://github.com/mont3z/meta-pine64.git
+    git clone -b morty git://git.yoctoproject.org/poky.git
+    git clone -b morty https://github.com/mont3z/meta-pine64.git
 
   ```
 
@@ -69,13 +55,6 @@
     BBLAYERS ?= " \
       /home/ME/yocto/poky/meta \
       /home/ME/yocto/poky/meta-poky \
-      /home/ME/yocto/poky/meta-yocto-bsp \
-      /home/ME/yocto/meta-openembedded/meta-networking \
-      /home/ME/yocto/meta-openembedded/meta-oe \
-      /home/ME/yocto/meta-openembedded/meta-python \
-      /home/ME/yocto/meta-linaro/meta-linaro \
-      /home/ME/yocto/meta-linaro/meta-linaro-toolchain \
-      /home/ME/yocto/meta-linaro/meta-ilp32 \
       /home/ME/yocto/meta-pine64 \
     "
   ```
@@ -90,8 +69,6 @@
   Additionally, add the following line to your local.conf to opt for linaro toolchain:
 
   ```shell
-    GCCVERSION = "linaro-5.3"
-    SDKGCCVERSION = "linaro-5.3"
     # Substitute ME by your username or whatever path you unpacked linaro gnu eabihf
     LINARO_EABIHF_PATH = "/home/ME/linaro-gnueabihf"
   ```

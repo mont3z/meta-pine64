@@ -1,8 +1,5 @@
 inherit image_types
 
-# Add the fstypes we need
-IMAGE_FSTYPES_append = " pine64-sdimg"
-
 #
 # Create an image that can by written onto a SD card using dd.
 # Based on rasberrypi sdimg and adapt for pine64 needs  
@@ -32,7 +29,9 @@ BOOT_SIZE = "50"
 
 # Use an uncompressed ext3 by default as rootfs
 SDIMG_ROOTFS_TYPE = "ext3"
-SDIMG_ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
+SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
+# SDIMG_ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
+# ALT_SDIMG_ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.${SDIMG_ROOTFS_TYPE}"
 #SDIMG_ROOTFS = "${DEPLOY_DIR_IMAGE}/${LOCALEBASEPN}-${MACHINE}.${SDIMG_ROOTFS_TYPE}"
 
 IMAGE_DEPENDS_pine64-sdimg += " \
@@ -47,7 +46,7 @@ IMAGE_DEPENDS_pine64-sdimg += " \
 rootfs[depends] += "virtual/kernel:do_deploy"
 
 # SD card image name
-SDIMG = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.pine64-sdimg"
+SDIMG = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.pine64-sdimg"
 
 IMAGE_CMD_pine64-sdimg () {
         # Align partitions
@@ -94,7 +93,11 @@ IMAGE_CMD_pine64-sdimg () {
 	# Burn Partitions
 	dd if=${WORKDIR}/boot.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${BOOT_POSITION} \* 1024) && sync && sync
 	# Write rootfs
-	dd if=${SDIMG_ROOTFS} of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${ROOTFS_POSITION} \* 1024) && sync && sync
+	if [ -e ${SDIMG_ROOTFS} ]; then
+		dd if=${SDIMG_ROOTFS} of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${ROOTFS_POSITION} \* 1024) && sync && sync
+	else
+		bbfatal "No rootfs image found. Looked for ${SDIMG_ROOTFS}"
+	fi
 
 	#write boot0 at the beginning of sdimage 
 	dd if=${DEPLOY_DIR_IMAGE}/boot0.bin of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${BOOT0_POSITION} \* 1024) && sync && sync
