@@ -109,9 +109,9 @@
   ```shell
     cd ~/yocto/poky/build/tmp/deploy/images/pine64/
     # for image minimal
-    sudo dd if=core-image-minimal-pine64.pine64-sdimg of=/dev/sdf
+    sudo dd if=core-image-minimal-pine64.wic of=/dev/sdf
     # for image sato
-    sudo dd if=core-image-sato-pine64.pine64-sdimg of=/dev/sdf
+    sudo dd if=core-image-sato-pine64.wic of=/dev/sdf
     sync
   ```
 
