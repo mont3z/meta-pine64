@@ -37,9 +37,12 @@ do_compile() {
 	oe_runmake ARCH=arm CROSS_COMPILE="${TARGET_PREFIX}" PLAT="${PLATFORM}" bl31
 }
 
+do_install() {
+	:
+}
+
 do_deploy() {
-	install -d ${STAGING_LOADER_DIR}
-	install -m 0644 ${S}/build/${PLATFORM}/release/bl31/bl31.elf ${STAGING_LOADER_DIR}/bl31-${MACHINE}.elf
-	install -m 0644 ${S}/build/${PLATFORM}/release/bl31.bin ${STAGING_LOADER_DIR}/bl31-${MACHINE}.bin
+	install -m 0644 ${S}/build/${PLATFORM}/release/bl31/bl31.elf ${DEPLOYDIR}/bl31-${MACHINE}.elf
+	install -m 0644 ${S}/build/${PLATFORM}/release/bl31.bin ${DEPLOYDIR}/bl31-${MACHINE}.bin
 }
 addtask deploy before do_build after do_compile

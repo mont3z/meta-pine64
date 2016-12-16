@@ -1,0 +1,19 @@
+# short-description: Create Pine64 BSP-style SD card image
+# long-description: Creates a partitioned SD card image. Boot files
+# are located in the first vfat partition and raw bootloaders are
+# placed where they would be in BSP builds.
+
+#
+# The disk layout used is:
+#
+#    0                   -> reserverd
+#    8 KiB               -> boot0  
+#    19096 KiB           -> u-boot 
+#    20480 KiB           -> kernel, dtbs, boot script
+#    20480 KiB + 50 MiB  -> rootfs
+#
+
+part boot0 --source rawcopy --sourceparams="file=boot0.bin" --ondisk mmcblk --no-table --align 8
+part loaders --source rawcopy --sourceparams="file=u-boot-with-dtb.bin" --ondisk mmcblk --no-table --align 19096
+part /boot --source bootimg-partition --ondisk mmcblk --fstype=vfat --label pine64 --active --size=50M --align 20480
+part / --source rootfs --ondisk mmcblk --fstype=ext3 --label platform --align 1024
